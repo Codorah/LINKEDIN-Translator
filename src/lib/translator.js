@@ -13,16 +13,56 @@ const intentDictionary = {
 };
 
 const situationByIntent = {
-  no_motivation: { fr: "un manque d'élan", en: "a sudden drop in motivation", es: "una falta de motivación total" },
-  breakup: { fr: "une fin de collaboration très personnelle", en: "a deeply personal offboarding", es: "un despido sumamente personal" },
-  rejection: { fr: "un refus difficile à encaisser", en: "a rejection that stings", es: "un rechazo muy doloroso" },
-  work: { fr: "une friction avec le travail quotidien", en: "friction with everyday work", es: "una fricción en el trabajo diario" },
-  win: { fr: "une victoire qui change la perspective", en: "a win that shifts perspective", es: "una victoria que cambia la mente" },
-  money: { fr: "une révélation sur la valeur financière", en: "a revelation about financial value", es: "una revelación sobre el valor económico" },
-  automation: { fr: "une optimisation de système", en: "a system optimization", es: "una optimización de mis sistemas" },
-  drama: { fr: "une tension dans l'écosystème", en: "tension in the ecosystem", es: "una gran tensión en mi entorno" },
-  growth: { fr: "une montée en puissance de l'influence", en: "a surge in influence", es: "un aumento exponencial de influencia" },
-  generic: { fr: "une situation du quotidien", en: "an ordinary life moment", es: "una situación muy cotidiana" }
+  no_motivation: { 
+    fr: ["un manque d'élan", "une flemme monumentale", "une baisse de tension cognitive"], 
+    en: ["a sudden drop in motivation", "a monumental lack of drive", "a cognitive energy dip"], 
+    es: ["una falta de motivación total", "una pereza monumental", "una bajada de tensión cognitiva"] 
+  },
+  breakup: { 
+    fr: ["une fin de collaboration très personnelle", "une rupture brutale", "un offboarding émotionnel"], 
+    en: ["a deeply personal offboarding", "a brutal breakup", "an emotional offboarding"], 
+    es: ["un despido sumamente personal", "una ruptura brutal", "un offboarding emocional"] 
+  },
+  rejection: { 
+    fr: ["un refus difficile à encaisser", "un non catégorique", "une porte fermée"], 
+    en: ["a rejection that stings", "a categorical no", "a closed door"], 
+    es: ["un rechazo muy doloroso", "un no categórico", "una puerta cerrada"] 
+  },
+  work: { 
+    fr: ["une friction avec le travail quotidien", "un mur opérationnel", "une lassitude de bureau"], 
+    en: ["friction with everyday work", "an operational wall", "office weariness"], 
+    es: ["una fricción en el trabajo diario", "un muro operativo", "un cansancio de oficina"] 
+  },
+  win: { 
+    fr: ["une victoire qui change la perspective", "un succès foudroyant", "une percée stratégique"], 
+    en: ["a win that shifts perspective", "a staggering success", "a strategic breakthrough"], 
+    es: ["una victoria que cambia la mente", "un éxito rotundo", "un avance estratégico"] 
+  },
+  money: { 
+    fr: ["une révélation sur la valeur financière", "un arbitrage monétaire", "une leçon sur le profit"], 
+    en: ["a revelation about financial value", "a monetary trade-off", "a lesson on profit"], 
+    es: ["una revelación sobre el valor económico", "un arbitraje monetario", "una lección sobre beneficio"] 
+  },
+  automation: { 
+    fr: ["une optimisation de système", "une victoire du code sur l'effort", "un scale automatisé"], 
+    en: ["a system optimization", "a victory of code over effort", "an automated scale"], 
+    es: ["una optimización de mis sistemas", "una victoria del código sobre el esfuerzo", "un escalado automatizado"] 
+  },
+  drama: { 
+    fr: ["une tension dans l'écosystème", "un débat qui m'a glacé", "une polémique nécessaire"], 
+    en: ["tension in the ecosystem", "a chilling debate", "a necessary controversy"], 
+    es: ["una gran tensión en mi entorno", "un debate que me heló", "una polémica necesaria"] 
+  },
+  growth: { 
+    fr: ["une montée en puissance de l'influence", "une accélération du reach", "une explosion de branding"], 
+    en: ["a surge in influence", "a reach acceleration", "a branding explosion"], 
+    es: ["un aumento exponencial de influencia", "una aceleración del alcance", "una explosión de marca"] 
+  },
+  generic: { 
+    fr: ["une situation du quotidien", "un instant de vie", "un signal faible"], 
+    en: ["an ordinary life moment", "a micro-moment", "a weak signal"], 
+    es: ["una situación muy cotidiana", "un instante de vida", "una señal débil"] 
+  }
 };
 
 const bridgeByTone = {
@@ -82,10 +122,17 @@ function detectIntent(text) {
 }
 
 function buildSubjectLine(intent, language, rawText) {
-  const situation = situationByIntent[intent]?.[language] || situationByIntent.generic[language];
-  if (language === "fr") return `${situation} que j'ai d'abord pris à la légère`;
-  if (language === "es") return `${situation} que tomé a la ligera al principio`;
-  return `${situation} that I initially underestimated`;
+  const situations = situationByIntent[intent]?.[language] || situationByIntent.generic[language];
+  const situation = pick(situations, Math.random());
+  
+  const connectors = {
+    fr: ["que j'ai d'abord pris à la légère", "qui a remis en cause mes acquis", "dont personne ne m'avait prévenu"],
+    en: ["that I initially underestimated", "that challenged everything I knew", "that nobody warned me about"],
+    es: ["que tomé a la ligera al principio", "que desafió todo lo que sabía", "de lo que nadie me advirtió"]
+  };
+  
+  const connector = pick(connectors[language] || connectors.en, Math.random());
+  return `${situation} ${connector}`;
 }
 
 export function generateLinkedinPost({
@@ -155,9 +202,24 @@ export function generateLinkedinPost({
 
   // 9. Extra Depth (Long only)
   if (length === "long") {
-    if (language === 'fr') lines.push("C'est souvent dans ces interstices que se joue la vraie performance.");
-    else if (language === 'es') lines.push("Frecuentemente, es en estos detalles donde se define el éxito.");
-    else lines.push("It's often in these gaps where true performance happens.");
+    const depths = {
+      fr: [
+        "C'est souvent dans ces interstices que se joue la vraie performance.",
+        "Le diable est dans les détails, mais le scale est dans la régularité.",
+        "On ne construit rien de durable sur des certitudes fragiles."
+      ],
+      en: [
+        "It's often in these gaps where true performance happens.",
+        "The devil is in the details, but scaling is in the consistency.",
+        "Nothing sustainable is built on fragile certainties."
+      ],
+      es: [
+        "Frecuentemente, es en estos detalles donde se define el éxito.",
+        "El diablo está en los detalles, pero escalar está en la constancia.",
+        "Nada sostenible se construye sobre certezas frágiles."
+      ]
+    };
+    lines.push(pick(depths[language] || depths.en, Math.random()));
   }
 
   // 10. CTA

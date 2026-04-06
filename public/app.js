@@ -57,11 +57,11 @@ const personaIcons = {
   dev_influential: "code",
   linkedin_creator: "trending-up",
   tech_manager: "shield",
-  freelance_remote: "palm-tree",
+  freelance_remote: "briefcase",
   hybrid_god: "flame",
   sales_shark: "briefcase",
   ai_prophet: "cpu",
-  productivity_monk: "battery-charging",
+  productivity_monk: "battery",
   burnout_survivor: "coffee"
 };
 
@@ -107,12 +107,51 @@ function renderPersonaGallery(personas, lang) {
 }
 
 function updateUI() {
+  const previousLang = languageInput ? languageInput.getAttribute("data-prev-lang") || "fr" : "fr";
   const lang = languageInput ? languageInput.value : "fr";
+  
+  if (languageInput) {
+    languageInput.setAttribute("data-prev-lang", lang);
+  }
+
+  // Handle sourceText translation if it matches a template
+  const currentText = sourceText.value.trim();
+  if (currentText) {
+    for (const key in uiTranslations) {
+      if (key.startsWith("tpl")) {
+        // Strip the emoji from the template translation string to just match the text
+        const prevTextOption = uiTranslations[key][previousLang].replace(/^[^a-zA-ZÀ-ÿ]+/,'').trim();
+        const currentOptionTrim = currentText === currentText ? currentText : "";
+        
+        // Exact match with dictionary (we store plain examples in dictionary or strip emojis)
+        // Let's rely on data-example translation
+      }
+    }
+  }
 
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const key = el.getAttribute("data-i18n");
     if (uiTranslations[key] && uiTranslations[key][lang]) {
       el.innerHTML = uiTranslations[key][lang];
+    }
+  });
+
+  // Update logic to swap template content
+  document.querySelectorAll(".template-chip").forEach(el => {
+    const key = el.getAttribute("data-i18n");
+    if (key && uiTranslations[key] && uiTranslations[key][lang]) {
+      const translated = uiTranslations[key][lang];
+      const textWithoutEmoji = translated.replace(/^[^\w\s\À-ÿ]+/, '').trim();
+      
+      // If the textarea holds the previous template text exactly, replace it.
+      if (uiTranslations[key][previousLang]) {
+        const previousTextWithoutEmoji = uiTranslations[key][previousLang].replace(/^[^\w\s\À-ÿ]+/, '').trim();
+        if (sourceText.value === previousTextWithoutEmoji || sourceText.value === el.dataset.example) {
+          sourceText.value = textWithoutEmoji;
+        }
+      }
+      
+      el.dataset.example = textWithoutEmoji;
     }
   });
 
@@ -172,8 +211,7 @@ function toggleTheme() {
   const newTheme = currentTheme === "dark" ? "light" : "dark";
   document.body.setAttribute("data-theme", newTheme);
   
-  const icon = themeToggle.querySelector("i");
-  icon.setAttribute("data-lucide", newTheme === "dark" ? "sun" : "moon");
+  themeToggle.innerHTML = `<i data-lucide="${newTheme === "dark" ? "sun" : "moon"}"></i>`;
   lucide.createIcons();
   
   localStorage.setItem("theme", newTheme);
@@ -196,8 +234,7 @@ async function loadCatalog() {
   
   const savedTheme = localStorage.getItem("theme") || "dark";
   document.body.setAttribute("data-theme", savedTheme);
-  const icon = themeToggle.querySelector("i");
-  icon.setAttribute("data-lucide", savedTheme === "dark" ? "sun" : "moon");
+  themeToggle.innerHTML = `<i data-lucide="${savedTheme === "dark" ? "sun" : "moon"}"></i>`;
   lucide.createIcons();
 }
 

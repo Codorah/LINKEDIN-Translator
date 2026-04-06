@@ -1,3 +1,10 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LinkedIn Translator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet" />
     <script src="https://unpkg.com/lucide@latest"></script>
@@ -7,8 +14,8 @@
     <main class="shell">
       <header class="app-header">
         <div class="brand">
-          <p class="eyebrow">LinkedIn Translator</p>
-          <h1>Transformer vos pensées en <span>posts viraux</span>.</h1>
+          <p class="eyebrow" data-i18n="appSubtitle">LinkedIn Translator</p>
+          <h1 data-i18n="appTitle">Transformer vos pensées en <span>posts viraux</span>.</h1>
         </div>
         <div class="header-actions">
            <button id="themeToggle" class="theme-btn" title="Changer de thème">
@@ -22,29 +29,29 @@
       <section class="control-strip">
         <div class="control-group">
           <label class="compact-field">
-            <span>Langue / Idioma</span>
+            <span data-i18n="labelLanguage">Langue / Idioma</span>
             <select id="outputLanguage" name="outputLanguage"></select>
           </label>
           <label class="compact-field">
-            <span>Personnalité</span>
+            <span data-i18n="labelTone">Personnalité</span>
             <select id="tone" name="tone"></select>
           </label>
           <label class="compact-field">
-            <span>Pattern (Hook)</span>
+            <span data-i18n="labelPattern">Pattern (Hook)</span>
             <select id="patternId" name="patternId">
               <option value="">Naturel / Aucun</option>
             </select>
           </label>
           <label class="compact-field">
-            <span>Longueur</span>
+            <span data-i18n="labelLength">Longueur</span>
             <select id="length" name="length">
-              <option value="short">Court</option>
-              <option value="medium" selected>Moyen</option>
-              <option value="long">Long</option>
+              <option value="short" data-i18n="lenShort">Court</option>
+              <option value="medium" selected data-i18n="lenMedium">Moyen</option>
+              <option value="long" data-i18n="lenLong">Long</option>
             </select>
           </label>
           <label class="compact-field">
-            <span>Intensité</span>
+            <span data-i18n="labelIntensity">Intensité</span>
             <select id="intensity" name="intensity">
               <option value="1">Soft</option>
               <option value="3" selected>Medium</option>
@@ -58,8 +65,8 @@
         <!-- LEFT: INPUT -->
         <article class="panel composer-area">
           <div class="panel-header">
-            <p class="eyebrow">Input</p>
-            <h2>Raconte ce qui t'arrive...</h2>
+            <p class="eyebrow" data-i18n="inputArea">Input</p>
+            <h2 data-i18n="inputTitle">Raconte ce qui t'arrive...</h2>
           </div>
           
           <form id="composer">
@@ -67,51 +74,52 @@
               id="sourceText"
               name="sourceText"
               placeholder="Ex: J'ai mangé une pomme ce matin et j'ai réalisé que..."
+              data-i18n-placeholder="inputPlaceholder"
               required
             ></textarea>
             
             <div class="templates-row">
-              <p class="small-label">Templates :</p>
+              <p class="small-label" data-i18n="templatesLabel">Templates :</p>
               <div id="exampleList" class="example-list">
-                <button type="button" class="template-chip" data-example="J'ai pas envie de travailler aujourd'hui.">😫 Flemme</button>
-                <button type="button" class="template-chip" data-example="J'ai rompu hier soir.">💔 Rupture</button>
-                <button type="button" class="template-chip" data-example="On m'a refusé pour un job.">❌ Rejet</button>
-                <button type="button" class="template-chip" data-example="J'ai gagné une petite victoire ce matin.">🏆 Victoire</button>
+                <button type="button" class="template-chip" data-example="J'ai pas envie de travailler aujourd'hui." data-i18n="tplLazy">😫 Flemme</button>
+                <button type="button" class="template-chip" data-example="J'ai rompu hier soir." data-i18n="tplBreakup">💔 Rupture</button>
+                <button type="button" class="template-chip" data-example="On m'a refusé pour un job." data-i18n="tplReject">❌ Rejet</button>
+                <button type="button" class="template-chip" data-example="J'ai gagné une petite victoire ce matin." data-i18n="tplWin">🏆 Victoire</button>
               </div>
             </div>
 
-            <button type="submit" class="cta-button primary">Transformer en post LinkedIn</button>
+            <button type="submit" class="cta-button primary" data-i18n="btnTransform">Transformer en post LinkedIn</button>
           </form>
         </article>
 
         <!-- RIGHT: OUTPUT -->
         <article class="panel preview-area">
           <div class="panel-header">
-            <p class="eyebrow">Preview</p>
+            <p class="eyebrow" data-i18n="outputArea">Preview</p>
             <div class="header-controls">
               <button id="copyButton" class="ghost-btn">
                 <i data-lucide="copy"></i>
-                Copier
+                <span data-i18n="btnCopy">Copier</span>
               </button>
               <button id="regenerateButton" class="ghost-btn">
                 <i data-lucide="refresh-cw"></i>
-                Régénérer
+                <span data-i18n="btnRegen">Régénérer</span>
               </button>
             </div>
           </div>
 
           <div class="linkedin-card">
-            <div id="resultText" class="post-content">Le post généré apparaîtra ici...</div>
+            <div id="resultText" class="post-content" data-i18n="outputInitial">Le post généré apparaîtra ici...</div>
           </div>
 
           <footer class="logic-footer">
-             <p id="logicText" class="logic-copy">En attente de data...</p>
+             <p id="logicText" class="logic-copy" data-i18n="outputLogicInitial">En attente de data...</p>
           </footer>
         </article>
       </section>
 
       <section class="persona-section">
-        <p class="section-title">Choisis ton Expert de Satire</p>
+        <p class="section-title" data-i18n="personaTitle">Choisis ton Expert de Satire</p>
         <div id="personaGallery" class="persona-grid">
           <!-- Dynamically populated -->
         </div>

@@ -1,0 +1,11 @@
+{
+  "name": "linkedin-langue-translator",
+  "version": "0.1.0",
+  "private": true,
+  "description": "MVP multilingue de generation de posts satiriques en langage LinkedIn.",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js"
+  }
+}

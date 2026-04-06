@@ -1,0 +1,124 @@
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body data-theme="dark">
+    <main class="shell">
+      <header class="app-header">
+        <div class="brand">
+          <p class="eyebrow">LinkedIn Translator</p>
+          <h1>Transformer vos pensées en <span>posts viraux</span>.</h1>
+        </div>
+        <div class="header-actions">
+           <button id="themeToggle" class="theme-btn" title="Changer de thème">
+             <i data-lucide="sun"></i>
+           </button>
+           <span class="badge neon-blue">No-AI Engine</span>
+           <span class="badge neon-gold">Viral Edition</span>
+        </div>
+      </header>
+
+      <section class="control-strip">
+        <div class="control-group">
+          <label class="compact-field">
+            <span>Langue / Idioma</span>
+            <select id="outputLanguage" name="outputLanguage"></select>
+          </label>
+          <label class="compact-field">
+            <span>Personnalité</span>
+            <select id="tone" name="tone"></select>
+          </label>
+          <label class="compact-field">
+            <span>Pattern (Hook)</span>
+            <select id="patternId" name="patternId">
+              <option value="">Naturel / Aucun</option>
+            </select>
+          </label>
+          <label class="compact-field">
+            <span>Longueur</span>
+            <select id="length" name="length">
+              <option value="short">Court</option>
+              <option value="medium" selected>Moyen</option>
+              <option value="long">Long</option>
+            </select>
+          </label>
+          <label class="compact-field">
+            <span>Intensité</span>
+            <select id="intensity" name="intensity">
+              <option value="1">Soft</option>
+              <option value="3" selected>Medium</option>
+              <option value="5">Viral Max</option>
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section class="workspace-grid">
+        <!-- LEFT: INPUT -->
+        <article class="panel composer-area">
+          <div class="panel-header">
+            <p class="eyebrow">Input</p>
+            <h2>Raconte ce qui t'arrive...</h2>
+          </div>
+          
+          <form id="composer">
+            <textarea
+              id="sourceText"
+              name="sourceText"
+              placeholder="Ex: J'ai mangé une pomme ce matin et j'ai réalisé que..."
+              required
+            ></textarea>
+            
+            <div class="templates-row">
+              <p class="small-label">Templates :</p>
+              <div id="exampleList" class="example-list">
+                <button type="button" class="template-chip" data-example="J'ai pas envie de travailler aujourd'hui.">😫 Flemme</button>
+                <button type="button" class="template-chip" data-example="J'ai rompu hier soir.">💔 Rupture</button>
+                <button type="button" class="template-chip" data-example="On m'a refusé pour un job.">❌ Rejet</button>
+                <button type="button" class="template-chip" data-example="J'ai gagné une petite victoire ce matin.">🏆 Victoire</button>
+              </div>
+            </div>
+
+            <button type="submit" class="cta-button primary">Transformer en post LinkedIn</button>
+          </form>
+        </article>
+
+        <!-- RIGHT: OUTPUT -->
+        <article class="panel preview-area">
+          <div class="panel-header">
+            <p class="eyebrow">Preview</p>
+            <div class="header-controls">
+              <button id="copyButton" class="ghost-btn">
+                <i data-lucide="copy"></i>
+                Copier
+              </button>
+              <button id="regenerateButton" class="ghost-btn">
+                <i data-lucide="refresh-cw"></i>
+                Régénérer
+              </button>
+            </div>
+          </div>
+
+          <div class="linkedin-card">
+            <div id="resultText" class="post-content">Le post généré apparaîtra ici...</div>
+          </div>
+
+          <footer class="logic-footer">
+             <p id="logicText" class="logic-copy">En attente de data...</p>
+          </footer>
+        </article>
+      </section>
+
+      <section class="persona-section">
+        <p class="section-title">Choisis ton Expert de Satire</p>
+        <div id="personaGallery" class="persona-grid">
+          <!-- Dynamically populated -->
+        </div>
+        <input type="hidden" id="personaId" name="personaId" value="founder" />
+      </section>
+    </main>
+
+    <script type="module" src="/app.js"></script>
+  </body>
+</html>
